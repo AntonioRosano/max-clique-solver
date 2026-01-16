@@ -4,20 +4,19 @@ import networkx as nx
 from src.loader import load_dimacs_graph
 from src.local_search import iterative_local_search
 
-# --- IMPORTAZIONI DALLE STRATEGIE (Nuova Struttura) ---
+
 from src.strategies.independent_set import solve_is_min_degree, solve_is_k_min_degree
 from src.strategies.local_score import solve_score_tie_breaking, solve_score_top_k
 from src.strategies.vertex_cover import solve_vc_max_degree, solve_vc_matching
 
-# --- CONFIGURAZIONE GLOBALE ---
-# Nome del file presente nella cartella 'data'
+# --- GLOBAL CONFIGURATION ---
 FILENAME = "p_hat300-1.txt"
 DATA_FILE = os.path.join("data", FILENAME) 
 
-# Parametri Generali (come da Tesi)
-NUM_ITER_CONSTRUCTIVE = 1000  # Quante volte ripetiamo la fase costruttiva
-ILS_MAX_ITER = 500            # Iterazioni per la Local Search
-ILS_PERTURBATION_K = 2        # Quanti nodi rimuovere nella perturbazione
+
+NUM_ITER_CONSTRUCTIVE = 1000  
+ILS_MAX_ITER = 500            
+ILS_PERTURBATION_K = 2        
 
 def verify_clique(G: nx.Graph, clique: set) -> bool:
     """Verifica che l'insieme di nodi sia davvero una cricca."""
@@ -37,11 +36,11 @@ def run_experiment(G: nx.Graph, strategy_name: str, strategy_func):
     print(f"ESPERIMENTO: {strategy_name}")
     print(f"{'='*60}")
 
-    # 1. FASE COSTRUTTIVA (Heuristic)
+    # 1. FASE COSTRUTTIVA
     print(f"[*] Avvio fase costruttiva ({NUM_ITER_CONSTRUCTIVE} iterazioni)...")
     start_time = time.time()
     
-    # Esegue la funzione passata come argomento
+
     initial_solution = strategy_func(G)
     
     heuristic_time = time.time() - start_time
@@ -70,7 +69,7 @@ def run_experiment(G: nx.Graph, strategy_name: str, strategy_func):
     print("-" * 30)
     print(f"RISULTATO FINALE: {strategy_name}")
     print(f"File:             {FILENAME}")
-    print(f"Validità Cricca:  {'✅ OK' if is_valid else '❌ ERRORE'}")
+    print(f"Validità Cricca:  {'OK' if is_valid else 'ERRORE'}")
     print(f"Dimensione:       {len(final_solution)}")
     print(f"Tempo Totale:     {total_time:.4f} sec")
     print("-" * 30)
@@ -86,7 +85,7 @@ def main():
         print(f"Controlla che il file '{FILENAME}' sia dentro la cartella 'data'.")
         return
 
-    # 2. Definizione delle Strategie (Dictionary Dispatch)
+    # 2. Definizione delle Strategie
     strategies = {
         "1": ("IS - Min Degree (Sez 2.1.1)", 
               lambda g: solve_is_min_degree(g, num_iter=NUM_ITER_CONSTRUCTIVE)),

@@ -1,0 +1,14 @@
+# Ignora file di sistema Mac
+.DS_Store
+
+# Ignora dati pesanti
+data/
+*.txt
+
+# Ignora cache di Python
+__pycache__/
+*.py[cod]
+
+# ---> IGNORA L'AMBIENTE VIRTUALE <---
+tesi/
+venv/
